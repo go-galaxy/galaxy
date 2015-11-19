@@ -1,0 +1,67 @@
+<a href="/user/add"><input type="button" value="添加管理员"></a>
+&nbsp;&nbsp;
+<table id="appList" width="1200" bordercolor="#cccccc" border="1">
+    <thead>
+    <tr height="33px;">
+        <th width="10%">管理员Id</th>
+		<th width="10%">所属管理组</th>
+        <th width="10%">账号</th>
+		<th width="10%">名称</th>
+        <th width="5%">状态</th>
+        <th width="10%">创建时间</th>
+        <th width="5%">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{range $key, $val := .users}}
+    <tr height="33px;">
+        <td>{{$val.Id}}</td>
+        {{$role := getUserRole $val.Id}}
+        <td>
+            <select name="role" uid="{{$val.Id}}" disabled class="form-control role">
+                <option value="0">空</option>
+                {{range $rk, $rv := $.r}}
+                <option value="{{$rv.Id}}" {{if eq $rv.Id $role.Id}}selected{{end}}>{{$rv.Name}}</option>
+                {{end}}
+            </select>
+        </td>
+        <td> {{$val.Account}}</td>
+		<td> {{$val.Name}}</td>
+        <td>
+            {{if ne $val.Status 1}}正常{{else}}禁用{{end}}
+        </td>
+        <td> {{formatTime $val.Ctime}}</td>
+        
+        <td><a href="/user/edit?id={{$val.Id}}">{{if ne $val.Status 2}}修改{{else}}修改创始人{{end}}</a></td>
+    </tr>
+    {{end}}
+    </tbody>
+</table>
+
+<script>
+    $(".role").change(function(){
+        var id = $(this).attr("uid");
+        var val = $(this).val();
+        console.log(id+"|"+val);
+        if (val == "0"){
+            return
+        }
+        $.post("/user_role/edit",
+                {
+                    user_id: id,
+                    role_id: val
+                },
+                function(data, status) {
+                    if (status == "success") {
+                        console.log(data['ret']);
+                        if (data['ret'] == '0') {
+                            alert("成功");
+                        }else{
+                            alert("失败");
+                        }
+                    }
+                }
+        );
+    });
+
+</script>

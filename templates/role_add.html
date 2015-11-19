@@ -1,0 +1,123 @@
+<form id="click" method="post" action="/role/add">
+    <div class="form-group">
+        <label for="id">角色id</label>
+        <input type="text" class="form-control" disabled value="{{.m.Id}}">
+        <input type="hidden" id="id" name="id" placeholder="ID" value="{{.m.Id}}">
+    </div>
+    <div class="form-group">
+        <label for="name">名称</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="名称" value="{{.m.Name}}">
+    </div>
+    <div class="form-group">
+        <label for="info">介绍</label>
+        <input type="text" class="form-control" id="info" name="info" placeholder="简介" value="{{.m.Info}}">
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="status"  value="0" checked onclick="">
+            正常
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="status"  value="1">
+            关闭
+        </label>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+<!--{{if ne .m.Id 0}}
+{{range $k,$v := .p}}{{$v.Id}}{{end}}
+     <table id="appList" width="1200" bordercolor="#cccccc" border="1">
+        <thead>
+        <tr>
+            <th width="10%">是否选择11</th>
+            <th width="10%">权限id</th>
+            <th width="10%">权限名称</th>
+            <th width="15%">权限详情</th>
+            <th width="10%">状态</th>
+            <th width="5%">路径</th>
+            <th width="5%">修改权限</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {{range $key, $val := .l}}
+        <tr>
+            <td> <input type="checkbox" name="permission" value="{{$val.Id}}" {{range $k,$v := $.p}}{{if eq $v.Id  $val.Id}}checked="checked"{{end}}{{end}}  ></td>
+            <td> {{$val.Id}}</td>
+            <td> {{$val.Name}}</td>
+            <td> {{$val.Info}}</td>
+            <td> {{$val.Status}}</td>
+            <td> {{$val.Path}}</td>
+            <td>修改</td>
+
+        </tr>
+        {{end}}
+        </tbody>
+    </table> 
+    <form id="role_permission" method="post" action="/role_permission/add">
+        <input type="hidden" id="permission_add_list" name="permission_add_list" value="">
+        <input type="hidden" id="permission_del_list" name="permission_del_list" value="">
+        <input type="hidden" name="role_id" value="{{.m.Id}}">
+        <button type="submit" id="role_submit" class="btn btn-default">Submit</button>
+    </form>
+{{end}} -->
+{{range $i,$j:=.list}}
+    <hr><input type="checkbox" name="permission" value="{{$j.Id}}" {{range $k,$v := $.p}}{{if eq $v.Id  $j.Id}}checked="checked"{{end}}{{end}} >{{$j.Id}}--{{$j.Name}}</hr>
+    <ul>
+        {{range $l,$m:=$j.Sub}}
+            <li><input type="checkbox" name="permission" value="{{$m.Id}}" {{range $k,$v := $.p}}{{if eq $v.Id  $m.Id}}checked="checked"{{end}}{{end}}>{{$m.Id}}--{{$m.Name}}</li>
+            
+            <ul>
+                {{range $h,$l:=$m.Sub}}
+                <li><input type="checkbox" name="permission" value="{{$l.Id}}" {{range $k,$v := $.p}}{{if eq $v.Id  $l.Id}}checked="checked"{{end}}{{end}}>{{$l.Id}}--{{$l.Name}}</li>
+                    <ul>
+                        {{range $k,$n:=$l.Sub}}
+                        <li><input type="checkbox" name="permission" value="{{$n.Id}}" {{range $k,$v := $.p}}{{if eq $v.Id  $n.Id}}checked="checked"{{end}}{{end}}>{{$n.Id}}--{{$n.Name}}
+                        </li>
+                        {{end}}
+                    </ul>
+                {{end}}
+            </ul>
+        {{end}}
+    </ul>
+{{end}}
+	<input type="checkbox" id="all" onclick="all()">全选
+    <form id="role_permission" method="post" action="/role_permission/add">
+    <!-- <form id="role_permission" method="post" action="">  -->
+        <input type="hidden" id="permission_add_list" name="permission_add_list" value="">
+        <input type="hidden" id="permission_del_list" name="permission_del_list" value="">
+        <input type="hidden" name="role_id" value="{{.m.Id}}">
+        <button type="submit" id="role_submit" class="btn btn-default">提交</button>
+    </form>
+<script>
+	$("#all").bind("click",function(){
+		var obj=document.getElementsByName("permission");
+		if(document.getElementById("all").checked){
+			for(var i=0;i<obj.length;i++){          
+			   obj[i].checked=true;         
+			}
+		}else{
+			for(var i=0;i<obj.length;i++){        
+			   obj[i].checked=false;         
+			} 
+		}
+	})
+    var add_list=new Array();
+    var del_list=new Array();
+    $("#role_submit").click(function(){
+        add_list= [];
+        del_list = [];
+        $("[name='permission']").each(
+                function(){
+                    if($(this).is(':checked')){
+                        add_list.push($(this).val());
+                    }else{
+                        del_list.push($(this).val());
+                    }
+                });
+        $("#permission_del_list").val( del_list.join(",")) ;
+        $("#permission_add_list").val( add_list.join(",")) ;
+    });
+</script>

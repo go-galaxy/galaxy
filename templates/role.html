@@ -1,0 +1,25 @@
+<table id="appList" width="1200" bordercolor="#cccccc" border="1">
+    <a href="/role/add">添加权限</a>
+    <thead>
+    <tr>
+        <th width="10%">角色id</th>
+        <th width="10%">角色名称</th>
+        <th width="15%">角色详情</th>
+        <th width="10%">状态</th>
+        <th width="5%">修改角色</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{range $key, $val := .l}}
+    <tr>
+        <td> {{$val.Id}}</td>
+        <td> {{$val.Name}}</td>
+        <td> {{$val.Info}}</td>
+        <td>
+            {{if eq $val.Status 0}}正常{{else}}禁用{{end}}
+        </td>
+        <td> <a href="/role/add?id={{$val.Id}}">修改</a></td>
+    </tr>
+    {{end}}
+    </tbody>
+</table>

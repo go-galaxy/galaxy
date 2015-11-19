@@ -1,0 +1,29 @@
+<a href="/permission/add"><input type="button" value="添加权限"></a>
+&nbsp;&nbsp;
+<table id="appList" width="1200" bordercolor="#cccccc" border="1">
+    <thead>
+    <tr>
+        <th width="10%">权限id</th>
+        <th width="10%">权限名称</th>
+        <th width="15%">权限详情</th>
+        <th width="10%">状态</th>
+        <th width="5%">路径</th>
+        <th width="5%">修改权限</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{range $key, $val := .l}}
+    <tr>
+        <td> {{$val.Id}}</td>
+        <td> {{$val.Name}}</td>
+        <td> {{$val.Info}}</td>
+        <td>
+            {{if eq $val.Status 0}}正常{{else}}禁用{{end}}
+        </td>
+        <td> {{$val.Path}}</td>
+        <td> <a href="/permission/add?id={{$val.Id}}">修改</a><!--/<a href="/permission/add">添加</a>--></td>
+
+    </tr>
+    {{end}}
+    </tbody>
+</table>

@@ -1,0 +1,34 @@
+<form id="click" method="post" action="/permission/add">
+    <div class="form-group">
+        <label for="id">权限id</label>
+        <input type="text" class="form-control" id="id" name="id" placeholder="ID" disabled value="{{.m.Id}}">
+    </div>
+    <div class="form-group">
+        <label for="name">名称</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="名称" value="{{.m.Name}}">
+    </div>
+    <div class="form-group">
+        <label for="info">介绍</label>
+        <input type="text" class="form-control" id="info" name="info" placeholder="简介" value="{{.m.Info}}">
+    </div>
+    <div class="form-group">
+        <label for="path">路径</label>
+        <input type="text" class="form-control" id="path" name="path" placeholder="路径" value="{{.m.Path}}">
+    </div>
+	<div>
+		
+	</div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="status"  value="0" checked onclick="">
+            正常
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="status"  value="1">
+            关闭
+        </label>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>

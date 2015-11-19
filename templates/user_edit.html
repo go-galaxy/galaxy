@@ -1,0 +1,41 @@
+<form id="click" method="post" action="/user/edit">
+    <div class="form-group">
+        <label for="id">管理员ID</label>
+        <input type="text" class="form-control" disabled  value="{{.m.Id}}">
+        <input type="hidden" class="form-control" id="id" name="id" value="{{.m.Id}}">
+    </div>
+    {{$role := getUserRole .m.Id}}
+    <div class="form-group">
+        <label for="id">管理组</label>
+        <select name="role_id" id="role_id">
+            <option value="0">空</option>
+            {{range $rk, $rv := $.roleList}}
+                <option value="{{$rv.Id}}" {{if eq $role.Id $rv.Id}}selected{{end}}>{{$rv.Name}}</option>
+            {{end}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id">账号</label>
+        <input type="text" class="form-control" disabled value="{{.m.Account}}">
+		<input type="hidden" class="form-control" id="account" name="account" placeholder="账号" value="{{.m.Account}}">
+	</div>
+    <div class="form-group">
+        <label for="name">名称</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="名称" value="{{.m.Name}}">
+    </div>
+    <div class="form-group">
+        <label for="info">描述</label>
+        <input type="text" class="form-control" id="info" name="info" placeholder="描述" value="{{.m.Info}}">
+    </div>
+    <div class="form-group">
+        <label for="info">账号状态</label>&nbsp;
+        <input type="radio" name="status" value="0" {{if eq .m.Status 0}}checked{{end}}>正常
+        <input type="radio" name="status" value="1" {{if eq .m.Status 1}}checked{{end}}>禁用
+        <input type="radio" name="status" value="2" {{if eq .m.Status 1}}checked{{end}}>超级管理员
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<script>
+
+</script>

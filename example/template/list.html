@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <table id="list" width="1200" bordercolor="#cccccc" border="1">
+        <thead>
+        <tr>
+            <th width="10%">名称</th>
+            <th width="10%">介绍</th>
+            <th width="10%">路径</th>
+            <th width="10%">状态</th>
+            <th width="10%">测试</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $key, $val := .list}}
+        <tr>
+            <td> {{$val.Name}}</td>
+            <td> {{$val.Info}}</td>
+            <td> {{$val.Path}}</td>
+            <td> {{$val.Status}}</td>
+            <td> <a href="/test?path={{$val.Path}}">测试</a></td>
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
+</body>
+</html>
